@@ -6,7 +6,7 @@ pipeline {
     stage ('Build Docker Image'){
       steps {
         script {
-          dockerapp = docker.build("rzmatheus/kube-news:${env.BUILD_ID}", '-f src/Dockerfile src/')
+          dockerapp = docker.build("rzmatheus/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src/')
         }
       }
     }
@@ -23,8 +23,8 @@ pipeline {
 
     stage ('Deploy Kubernetes') {
       steps {
-        withKubeconfig ([credentialsId: 'kubeconfig']) {
-          sh 'kubectl apply -f k8s/deployment.yaml'
+        withKubeConfig ([credentialsId: 'kubeconfig']) {
+          sh 'kubectl apply -f ./k8s/deployment.yaml'
         }
       }
     }
